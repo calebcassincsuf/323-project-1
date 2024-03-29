@@ -90,9 +90,8 @@ void lexer(std::string str)
         // If the very start of the string is a delimiter it will immediately generate an output from that.
         if (isEndString(str[left]))
         {
-            //logic to handle 2 character operators. In the future this should be standarized to use functions. This checks to see if the first
-            //character is used in a two-character operator. If it is then it waits for another character before running.
-            if(right-left == 1 && str[left] != '<' && str[left] != '>') {
+            //logic to handle 2 exceptions to something being a delmiter. At the moment this is used to detect comments and prevent them from being displayed.
+            if(right-left == 1 && str[left] != '/') {
                 outFromStr(str.substr(left, 1));
 
                 // Reset the leftmost position and clear any excess whitespace.
@@ -105,8 +104,22 @@ void lexer(std::string str)
             } else if(right-left == 2)
             {
                 //checks if the held string is a double operator. If it is then it is pushed as a single lexeme, if not then they are separated.
-                if(str[left+1] == '=') {
-                    outFromStr(str.substr(left,2));
+                if(str[left+1] == '/') {
+                    left = right;
+                    while (right < length && str[right] != '\n')
+                    {
+                        right++;
+                        left++;
+                    }
+                } else if (str[left+1] == '*') {
+                    left = right;
+                    while (right < length && !(str[right] == '/' && str[right-1] == '*'))
+                    {
+                        right++;
+                        left++;
+                    }
+                    right++;
+                    left++;
                 }
                 else{
                     outFromStr(str.substr(left,1));
@@ -140,9 +153,10 @@ void lexer(std::string str)
     }
 }
 
+
 int main()
 {
-    std::string input = "int alpha >= x+(14/25);";
+    std::string input = "int alpha >= x+(14/25); /* does this show up? */ alpha = 5";
     lexer(input);
 
     return 0;
