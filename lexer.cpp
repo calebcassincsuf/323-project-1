@@ -2,6 +2,9 @@
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
+
 using namespace std;
 
 // Checks if a given character ends a string/lexeme. Does not provide information on which token it is.
@@ -184,10 +187,22 @@ void lexer(std::string str)
 
 int main()
 {
-    std::ifstream inputFile("input.txt");
+    std::ifstream inputFile("files/input.txt");
     string input;
-    getline(inputFile, input);
+    //getline(inputFile, input);
+    if (inputFile.is_open()) {
+        std::string line;
+        while (std::getline(inputFile, line)) { // Read each line from the file
+            input += line; // Append each line to the input variable
+        }
+        inputFile.close(); // Close the input file
+    }
+    else {
+        std::cerr << "Unable to open file" << std::endl;
+        return 1; // Exit with error if file opening failed
+    }
     //std::string input = "int alpha >= x+(14/25.0); /* does this show up? */ alpha = \"hi\";";
+
     lexer(input);
 
     return 0;
