@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <fstream>
 using namespace std;
 
 // Checks if a given character ends a string/lexeme. Does not provide information on which token it is.
@@ -17,6 +18,25 @@ bool isOperator(string op)
         return op[0] == '+' || op[0] == '-' || op[0] == '/' || op[0] == '*' || op[0] == '=' || op[0] == '<' || op[0] == '>';
     }
     return op.compare("<=") == 0 || op.compare(">=") == 0;
+}
+
+//Returns whether a character is a string
+bool isString(string str) {
+    return str.length() > 1 && ((str[0] == '"' && str[str.length()-1] == '"') || (str[0] == '\'' && str[str.length()-1] == '\''));
+}
+
+//returns whether a string is a number with a decimal point
+bool isDecimal(string dec) {
+    string::const_iterator it = dec.begin();
+    while (it != dec.end() && isdigit(*it))
+        ++it;
+    if(*it == '.') {
+        ++it;
+        while (it != dec.end() && isdigit(*it))
+            ++it;
+        return !dec.empty() && it == dec.end();
+    }
+    return false;
 }
 
 // Returns whether a character is a separator.
@@ -69,9 +89,17 @@ void outFromStr(std::string str)
     {
         cout << "Integer: " << str << "\n";
     }
+    else if (isDecimal(str))
+    {
+        cout << "Decimal: " << str << "\n";
+    }
     else if (isKeyword(str))
     {
         cout << "Keyword: " << str << "\n";
+    }
+    else if (isString(str))
+    {
+        cout << "String: " << str << "\n";
     }
     else
     {
@@ -156,7 +184,10 @@ void lexer(std::string str)
 
 int main()
 {
-    std::string input = "int alpha >= x+(14/25); /* does this show up? */ alpha = 5";
+    std::ifstream inputFile("input.txt");
+    string input;
+    getline(inputFile, input);
+    //std::string input = "int alpha >= x+(14/25.0); /* does this show up? */ alpha = \"hi\";";
     lexer(input);
 
     return 0;
