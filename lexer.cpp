@@ -6,6 +6,12 @@
 #include <stdexcept>
 
 using namespace std;
+char operators[15] = {'<','>','+','=','!','&','*','-','/','%','|','^','~','?',':'};
+char separators[7] = {'[',']','{','}','(',')',';'};
+string keywords[45]= {"auto","bool","break","case","class","catch","char","const","continue","default","delete"
+    ,"do","double","else","enum","explicit","export","false","float","for","if","int","long","mutable","namespace","new"
+    "nullptr","private","protected","public","register","requires","return","short","signed","static","struct","switch","template","this"
+    "throw","true","try","unsigned","using","void","while"};
 
 // Checks if a given character ends a string/lexeme. Does not provide information on which token it is.
 bool isEndString(char sym)
@@ -16,11 +22,15 @@ bool isEndString(char sym)
 // Returns whether a character is an operator.
 bool isOperator(string op)
 {
-    if (op.length() == 1)
+    for (int i = 0; i < sizeof(operators)/sizeof(char); i++)
     {
-        return op[0] == '+' || op[0] == '-' || op[0] == '/' || op[0] == '*' || op[0] == '=' || op[0] == '<' || op[0] == '>';
+        if (op[0] == operators[i])
+        {
+
+            return true;
+        }
     }
-    return op.compare("<=") == 0 || op.compare(">=") == 0;
+    return false;
 }
 
 //Returns whether a character is a string
@@ -45,9 +55,13 @@ bool isDecimal(string dec) {
 // Returns whether a character is a separator.
 bool isSeparator(string sep)
 {
-    if (sep.length() == 1)
+    for (int i = 0; i < sizeof(separators)/sizeof(char); i++)
     {
-        return sep[0] == ';' || sep[0] == '{' || sep[0] == '}' || sep[0] == '(' || sep[0] == ')' || sep[0] == '[' || sep[0] == ']';
+        if (sep[0] == separators[i])
+        {
+
+            return true;
+        }
     }
     return false;
 }
@@ -64,8 +78,7 @@ bool isInteger(string lex)
 // Returns whether a string is a keyword.
 bool isKeyword(string key)
 {
-    string keywords[5] = {"if", "for", "bool", "int", "while"};
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < sizeof(keywords)/sizeof(keywords[0]); i++)
     {
         if (key.compare(keywords[i]) == 0)
         {
