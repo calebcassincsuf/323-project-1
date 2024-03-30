@@ -203,9 +203,7 @@ int main()
         std::string line;
         while (std::getline(inputFile, line)) { // Read each line from the file
             input += line + '\n'; // Append each line to the input variable
-            cout << line << '\n';
         }
-        cout << input <<'\n';
         inputFile.close(); // Close the input file
     }
     else {
