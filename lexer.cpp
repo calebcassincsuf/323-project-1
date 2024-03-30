@@ -76,6 +76,13 @@ bool isKeyword(string key)
     return false;
 }
 
+bool isIdentifier(string id) {
+    string::const_iterator it = id.begin();
+    while (it != id.end() && (isdigit(*it) || isalpha(*it) || *it == '_'))
+        ++it;
+    return !id.empty() && it == id.end() && !isdigit(id[0]);
+}
+
 // Takes in a lexeme and prints an output of which token it is.
 void outFromStr(std::string str)
 {
@@ -104,9 +111,11 @@ void outFromStr(std::string str)
     {
         cout << "String: " << str << "\n";
     }
-    else
+    else if (isIdentifier(str))
     {
         cout << "Identifier: " << str << "\n";
+    } else {
+        cout << "Invalid lexeme: " << str << "\n";
     }
 }
 
@@ -193,8 +202,10 @@ int main()
     if (inputFile.is_open()) {
         std::string line;
         while (std::getline(inputFile, line)) { // Read each line from the file
-            input += line; // Append each line to the input variable
+            input += line + '\n'; // Append each line to the input variable
+            cout << line << '\n';
         }
+        cout << input <<'\n';
         inputFile.close(); // Close the input file
     }
     else {

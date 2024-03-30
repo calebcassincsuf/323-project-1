@@ -1,0 +1,2 @@
+int alpha >= x+(14/25.0); // This should not show up
+alpha = /*this should also be invisible*/ "hi";
