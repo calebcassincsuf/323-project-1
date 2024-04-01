@@ -109,35 +109,35 @@ void outFromStr(std::string str)
 
     if (isOperator(str))
     {
-        cout << "Operator: " << str << "\n";
+        cout << "\"" << str << "\" = operator\n";
     }
     else if (isSeparator(str))
     {
-        cout << "Separator: " << str << "\n";
+        cout << "\"" << str << "\" = separator\n";
     }
     else if (isInteger(str))
     {
-        cout << "Integer: " << str << "\n";
+        cout << "\"" << str << "\" = integer\n";
     }
     else if (isDecimal(str))
     {
-        cout << "Decimal: " << str << "\n";
+        cout << "\"" << str << "\" = decimal\n";
     }
     else if (isKeyword(str))
     {
-        cout << "Keyword: " << str << "\n";
+        cout << "\"" << str << "\" = keyword\n";
     }
     else if (isString(str))
     {
-        cout << "String: " << str << "\n";
+        cout << "\"" << str << "\" = string\n";
     }
     else if (isIdentifier(str))
     {
-        cout << "Identifier: " << str << "\n";
+        cout << "\"" << str << "\" = identifier\n";
     }
     else
     {
-        cout << "Invalid lexeme: " << str << "\n";
+        cout << "\"" << str << "\" = unknown\n";
     }
 }
 
@@ -223,7 +223,10 @@ void lexer(std::string str)
 
 int main()
 {
-    std::ifstream inputFile("files/input.txt");
+    string fileName = "input.txt";
+    cout << "Please enter the file you wish to compile:" << "\n";
+    cin >> fileName;
+    std::ifstream inputFile(fileName);
     string input;
     // getline(inputFile, input);
     if (inputFile.is_open())
